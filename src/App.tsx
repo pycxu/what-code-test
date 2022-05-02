@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import './App.css';
 
 function App() {
@@ -8,26 +9,35 @@ function App() {
 
   const [todos, setTodos] = useState([
     {
-      text: '',
-      isDone: false
+      task: '',
+      completed: false
     }
   ]);
 
-  const addTodo = (todo: any) => {
-    const newTodos = [...todos, { text: todo, isDone: false }];
-    setTodos(newTodos); 
+  const API_URL = "http://localhost:5001/todos/";
+
+  const updateTodos = async () => {
+    const { data: todos } = await axios.get(API_URL)
+    setTodos(todos)
+  }
+
+  useEffect(() => {
+    updateTodos()
+  }, [])
+
+  const addTodo = async (task: any) => {
+    await axios.post(API_URL, {task})
+    updateTodos()
   };
 
-  const markTodo = (index: number) => {
-    const newTodos = [...todos];
-    newTodos[index].isDone = true;
-    setTodos(newTodos);
+  const completeTodo = async (index: number) => {
+    await axios.put(`${API_URL}${index}`)
+    updateTodos()
   };
 
-  const removeTodo = (index: number) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+  const removeTodo = async (index: number) => {
+    await axios.delete(`${API_URL}${index}`)
+    updateTodos()
   };
 
   const submitForm = (event: any) => {
@@ -77,13 +87,13 @@ function App() {
         <div className="to-do-list__todo">
           {todos.map((todo, index) => (
             <div className="todo__row">
-              <span className="text__normal" style={{ textDecoration: todo.isDone ? "line-through" : "", display: "inline-block"}}>
-                {todo.text}
+              <span className="text__normal" style={{ textDecoration: todo.completed ? "line-through" : "", display: "inline-block"}}>
+                {todo.task}
               </span>
-              {todo.text === ''
+              {todo.task === ''
                 ?<></>
                 :<div>
-                  <button onClick={() => markTodo(index)}>✓</button>
+                  <button onClick={() => completeTodo(index)}>✓</button>
                   <button onClick={() => removeTodo(index)}>✕</button>
                 </div>
               }

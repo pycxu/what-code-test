@@ -25,48 +25,5 @@ body {
   justify-content: center;
   align-items: center;
   gap: 5rem;
-
-  &__header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-
-    padding: 2rem;
-  }
 }
 
-.to-do-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__todo {
-    width: 100%;
-  }
-}
-
-.form {
-  &__row {
-    display: flex;
-    gap: 1rem;
-  }
-}
-
-.todo {
-  &__row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}

@@ -45,8 +45,19 @@ body {
   justify-content: center;
   align-items: center;
 }
+.to-do-list__todo {
+  width: 100%;
+}
 
 .form__row {
   display: flex;
   gap: 1rem;
-}/*# sourceMappingURL=App.css.map */
+}
+
+.todo__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*# sourceMappingURL=App.css.map */

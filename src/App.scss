@@ -50,11 +50,23 @@ body {
     justify-content: center;
     align-items: center;
   }
+
+  &__todo {
+    width: 100%;
+  }
 }
 
 .form {
   &__row {
     display: flex;
     gap: 1rem;
+  }
+}
+
+.todo {
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

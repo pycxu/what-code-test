@@ -6,8 +6,35 @@ function App() {
     input: '',
   });
 
+  const [todos, setTodos] = useState([
+    {
+      text: '',
+      isDone: false
+    }
+  ]);
+
+  const addTodo = (todo: any) => {
+    const newTodos = [...todos, { text: todo, isDone: false }];
+    setTodos(newTodos); 
+  };
+
+  const markTodo = (index: number) => {
+    const newTodos = [...todos];
+    newTodos[index].isDone = true;
+    setTodos(newTodos);
+  };
+
+  const removeTodo = (index: number) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
+
   const submitForm = (event: any) => {
     event.preventDefault();
+    if (!event.target[0].value) return;
+    addTodo(event.target[0].value);
+    setFormValue({input: ''});
   };
 
   return (
@@ -47,6 +74,22 @@ function App() {
         </form>
 
         {/* You should render your todo list down here */}
+        <div className="to-do-list__todo">
+          {todos.map((todo, index) => (
+            <div className="todo__row">
+              <span className="text__normal" style={{ textDecoration: todo.isDone ? "line-through" : "", display: "inline-block"}}>
+                {todo.text}
+              </span>
+              {todo.text === ''
+                ?<></>
+                :<div>
+                  <button onClick={() => markTodo(index)}>✓</button>
+                  <button onClick={() => removeTodo(index)}>✕</button>
+                </div>
+              }
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );

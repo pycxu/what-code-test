@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import './todoForm.scss';
+import { addTodo, getTodos } from '../../utils/APIHelper';
 
-const TodoForm = ({ addTask }) => {
+const TodoForm = ({ setTodos }) => {
 
     const [formValue, setFormValue] = useState({
         input: '',
-      });
+    });
 
-    const submitForm = (event) => {
+    const submitForm = async (event) => {
         event.preventDefault();
-        if (!event.target[0].value) return;
-        addTask(event.target[0].value);
+        await addTodo(event.target[0].value);
+        const data = await getTodos();
+        setTodos(data)
         setFormValue({input: ''});
       };
 

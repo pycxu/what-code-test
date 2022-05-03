@@ -1,57 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import AppSection from './components/section/AppSection';
-import AppHeader from './components/header/AppHeader';
+import Section from './components/section/Section';
+import Header from './components/header/Header';
 import TodoForm from './components/form/TodoForm';
 import Todo from './components/todo/Todo';
+import { getTodos } from './utils/APIHelper';
 import './App.scss';
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      task: '',
-      completed: false
-    }
-  ]);
+  const [todos, setTodos] = useState([]);
 
-  const API_URL = "http://localhost:5001/todos/";
-
-  // fetch all todos and set todos state
-  const updateTodos = async () => {
-    const { data: todos } = await axios.get(API_URL)
-    setTodos(todos)
-  }
-
-  // updateTodos when component mounts
+  // fetch all todos and set todos state when component mounts
   useEffect(() => {
-    updateTodos()
+    // fetch all todos and set todos state
+    const fetchAndSetTodos = async () => {
+      const data = await getTodos();
+      setTodos(data);
+    }
+    fetchAndSetTodos()
   }, [])
-
-  // add new task
-  const addTask = async (task: any) => {
-    await axios.post(API_URL, {task})
-    updateTodos()
-  };
-
-  // mark a task as completed
-  const completeTask = async (index: number) => {
-    await axios.put(`${API_URL}${index}`)
-    updateTodos()
-  };
-
-  // remove a task
-  const removeTask = async (index: number) => {
-    await axios.delete(`${API_URL}${index}`)
-    updateTodos()
-  };
 
   return (
     <div className="app">
-      <AppHeader />
-      <AppSection>
-        <TodoForm addTask={addTask}/>
-        <Todo todos={todos} completeTask={completeTask} removeTask={removeTask}/>
-      </AppSection>
+      <Header />
+      <Section>
+        <TodoForm setTodos={setTodos}/>
+        <Todo todos={todos} setTodos={setTodos}/>
+      </Section>
     </div>
   );
 }
